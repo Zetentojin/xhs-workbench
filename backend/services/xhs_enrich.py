@@ -23,7 +23,7 @@ def _resolve_script_path() -> Path:
     configured = os.environ.get("XHS_ENRICH_SCRIPT")
     if configured:
         return Path(configured).expanduser()
-    if LEGACY_LOCAL_SCRIPT_PATH.exists():
+    if os.environ.get("XHS_ENRICH_ALLOW_LEGACY_LOCAL") == "1" and LEGACY_LOCAL_SCRIPT_PATH.exists():
         return LEGACY_LOCAL_SCRIPT_PATH.expanduser()
     return PACKAGED_SCRIPT_PATH
 
@@ -45,7 +45,7 @@ def _resolve_output_dir() -> Path:
     configured = os.environ.get("XHS_ENRICH_OUTPUT_DIR")
     if configured:
         return Path(configured).expanduser()
-    if LEGACY_LOCAL_OUTPUT_DIR.exists():
+    if os.environ.get("XHS_ENRICH_ALLOW_LEGACY_LOCAL") == "1" and LEGACY_LOCAL_OUTPUT_DIR.exists():
         return LEGACY_LOCAL_OUTPUT_DIR.expanduser()
     return PROJECT_ROOT / "exports"
 
