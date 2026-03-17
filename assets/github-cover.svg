@@ -27,64 +27,70 @@
   <rect x="72" y="72" width="1136" height="496" rx="32" fill="url(#hero)" filter="url(#shadow)"/>
 
   <rect x="124" y="120" width="462" height="44" rx="22" fill="#FFFFFF" fill-opacity="0.22"/>
-  <text x="152" y="149" fill="#2F1D13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">
+  <text x="355" y="142" text-anchor="middle" dominant-baseline="middle" fill="#2F1D13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">
     LOCAL-FIRST • NO LOGIN • REAL SCRAPING
   </text>
 
   <text x="124" y="244" fill="#2B180F" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="64" font-weight="800">
     XHS Workbench
   </text>
-  <text x="124" y="304" fill="#4E2D18" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="28" font-weight="600">
-    GitHub 下载后可本地直接运行的小红书线索工作台
+  <text x="124" y="302" fill="#4E2D18" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="29" font-weight="700">
+    GitHub 下载后可本地直接运行的
   </text>
-  <text x="124" y="352" fill="#5E3822" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="24">
-    Next.js 前端 + FastAPI 运行器 + 宿主机 xhs CLI + 可导出结果
+  <text x="124" y="340" fill="#4E2D18" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="29" font-weight="700">
+    小红书线索工作台
+  </text>
+  <text x="124" y="388" fill="#5E3822" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="22" font-weight="600">
+    Next.js 前端 + FastAPI 运行器 + 宿主机 xhs CLI
+  </text>
+  <text x="124" y="422" fill="#6D4328" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="20">
+    结果可查看、可导出，也可继续人工研判
   </text>
 
-  <rect x="124" y="398" width="228" height="58" rx="18" fill="#1D1D1D" fill-opacity="0.9"/>
-  <text x="156" y="434" fill="#FFF5EA" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="24" font-weight="700">
+  <rect x="124" y="450" width="256" height="58" rx="18" fill="#1D1D1D" fill-opacity="0.9"/>
+  <text x="252" y="479" text-anchor="middle" dominant-baseline="middle" fill="#FFF5EA" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="22" font-weight="700">
     Clone → Login → Run
   </text>
 
-  <rect x="370" y="398" width="176" height="58" rx="18" fill="#FFF7EC" fill-opacity="0.9"/>
-  <text x="405" y="434" fill="#A14A12" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="24" font-weight="700">
+  <rect x="396" y="450" width="182" height="58" rx="18" fill="#FFF7EC" fill-opacity="0.9"/>
+  <text x="487" y="479" text-anchor="middle" dominant-baseline="middle" fill="#A14A12" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="22" font-weight="700">
     Export Ready
   </text>
 
   <rect x="714" y="138" width="410" height="342" rx="28" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.14"/>
-  <text x="752" y="186" fill="#FFF4E8" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="24" font-weight="700">
+  <text x="919" y="184" text-anchor="middle" dominant-baseline="middle" fill="#FFF4E8" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="24" font-weight="700">
     Runtime Flow
   </text>
 
   <rect x="752" y="218" width="132" height="76" rx="18" fill="#FFF1E7"/>
-  <text x="785" y="250" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
+  <text x="818" y="245" text-anchor="middle" dominant-baseline="middle" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
     Frontend
   </text>
-  <text x="774" y="274" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
+  <text x="818" y="269" text-anchor="middle" dominant-baseline="middle" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
     Next.js UI
   </text>
 
   <rect x="931" y="218" width="154" height="76" rx="18" fill="#FFF1E7"/>
-  <text x="970" y="250" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
+  <text x="1008" y="245" text-anchor="middle" dominant-baseline="middle" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
     Backend
   </text>
-  <text x="959" y="274" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
+  <text x="1008" y="269" text-anchor="middle" dominant-baseline="middle" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
     FastAPI API
   </text>
 
   <rect x="752" y="334" width="154" height="92" rx="18" fill="#FFE2CC"/>
-  <text x="777" y="370" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
+  <text x="829" y="367" text-anchor="middle" dominant-baseline="middle" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
     Enrichment
   </text>
-  <text x="785" y="394" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
+  <text x="829" y="392" text-anchor="middle" dominant-baseline="middle" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
     xhs_enrich.py
   </text>
 
   <rect x="944" y="334" width="141" height="92" rx="18" fill="#FFE2CC"/>
-  <text x="987" y="370" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
+  <text x="1014.5" y="367" text-anchor="middle" dominant-baseline="middle" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
     Host xhs
   </text>
-  <text x="963" y="394" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
+  <text x="1014.5" y="392" text-anchor="middle" dominant-baseline="middle" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
     CLI / Login State
   </text>
 
@@ -93,15 +99,15 @@
   <path d="M1009 294V324" stroke="#FFF2E4" stroke-width="4" stroke-linecap="round"/>
 
   <rect x="714" y="504" width="146" height="36" rx="18" fill="#FFFFFF" fill-opacity="0.18"/>
-  <text x="742" y="528" fill="#FFF7EF" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">
+  <text x="787" y="522" text-anchor="middle" dominant-baseline="middle" fill="#FFF7EF" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">
     no login design
   </text>
   <rect x="874" y="504" width="106" height="36" rx="18" fill="#FFFFFF" fill-opacity="0.18"/>
-  <text x="899" y="528" fill="#FFF7EF" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">
+  <text x="927" y="522" text-anchor="middle" dominant-baseline="middle" fill="#FFF7EF" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">
     local run
   </text>
   <rect x="994" y="504" width="106" height="36" rx="18" fill="#FFFFFF" fill-opacity="0.18"/>
-  <text x="1012" y="528" fill="#FFF7EF" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">
+  <text x="1047" y="522" text-anchor="middle" dominant-baseline="middle" fill="#FFF7EF" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">
     exportable
   </text>
 </svg>
