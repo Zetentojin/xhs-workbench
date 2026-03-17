@@ -1,11 +1,20 @@
 .DS_Store
 .env
 .env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Frontend
 frontend/node_modules/
 frontend/.next/
 frontend/.env.local
 frontend/.env.production.local
 frontend/.vercel/
+
+# Backend
 backend/.venv/
 backend/.env.local
 backend/.env.production.local
