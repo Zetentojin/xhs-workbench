@@ -2008,7 +2008,11 @@ export default function XhsWorkbenchPage() {
                   const cleanRiskFlags = cleanRiskText(row.risk_flags);
                   const pinnedExpanded = expandedRowId === row.note_id;
                   const hoverExpanded = hoverPreviewEnabled && hoveredRowId === row.note_id;
-                  const expanded = hoverExpanded || (!hoveredRowId && pinnedExpanded);
+                  const keyboardExpanded = keyboardRowId === row.note_id;
+                  const expanded =
+                    hoverExpanded ||
+                    keyboardExpanded ||
+                    (!hoveredRowId && !keyboardRowId && pinnedExpanded);
                   const keyboardActive = keyboardRowId === row.note_id;
                   const metaLine = joinCompact([
                     row.author || "未知作者",
