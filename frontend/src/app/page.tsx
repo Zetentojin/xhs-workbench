@@ -290,6 +290,7 @@ const RESULT_PAGE_SIZE = 30;
 const THEME_STORAGE_KEY = "xhs-workbench-theme";
 const AUTO_DARK_START_HOUR = 19;
 const AUTO_DARK_END_HOUR = 7;
+const HOVER_PREVIEW_MEDIA_QUERY = "(hover: hover) and (pointer: fine)";
 type SectionIconName =
   | "settings"
   | "server"
@@ -791,6 +792,8 @@ export default function XhsWorkbenchPage() {
   const previousLatestStampRef = useRef<string | null>(null);
   const [form, setForm] = useState<FormState>(defaultForm);
   const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
+  const [hoveredRowId, setHoveredRowId] = useState<string | null>(null);
+  const [hoverPreviewEnabled, setHoverPreviewEnabled] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [themeMode, setThemeMode] = useState<ThemeMode | null>(null);
   const [expandedPanels, setExpandedPanels] = useState<Record<"config" | "env" | "log" | "brief", boolean>>({
@@ -825,6 +828,23 @@ export default function XhsWorkbenchPage() {
     const timer = window.setInterval(applyThemeMode, 60_000);
     return () => window.clearInterval(timer);
   }, [themeMode]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(HOVER_PREVIEW_MEDIA_QUERY);
+    const syncHoverPreview = () => setHoverPreviewEnabled(mediaQuery.matches);
+    syncHoverPreview();
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", syncHoverPreview);
+      return () => mediaQuery.removeEventListener("change", syncHoverPreview);
+    }
+    mediaQuery.addListener(syncHoverPreview);
+    return () => mediaQuery.removeListener(syncHoverPreview);
+  }, []);
+
+  useEffect(() => {
+    if (hoverPreviewEnabled) return;
+    setHoveredRowId(null);
+  }, [hoverPreviewEnabled]);
 
   const handleAccessDenied = useCallback((message: string = ACCESS_LOCK_MESSAGE) => {
     setError(message);
@@ -1068,6 +1088,9 @@ export default function XhsWorkbenchPage() {
   const accessSummaryText = publicAccessEnabled
     ? "当前版本不需要登录，打开后就能直接刷新状态、运行抓取和导出结果。"
     : ACCESS_LOCK_MESSAGE;
+  const toggleExpandedRow = (rowId: string) => {
+    setExpandedRowId((current) => (current === rowId ? null : rowId));
+  };
 
   return (
     <main className="workspace-stage min-h-screen overflow-hidden bg-transparent text-zinc-800 transition-colors dark:text-zinc-100">
@@ -1913,7 +1936,9 @@ export default function XhsWorkbenchPage() {
                   const topicTags = (row.topic_tags || []).slice(0, 4);
                   const cleanNoiseReason = cleanRiskText(row.noise_reason);
                   const cleanRiskFlags = cleanRiskText(row.risk_flags);
-                  const expanded = expandedRowId === row.note_id;
+                  const pinnedExpanded = expandedRowId === row.note_id;
+                  const hoverExpanded = hoverPreviewEnabled && hoveredRowId === row.note_id;
+                  const expanded = hoverExpanded || (!hoveredRowId && pinnedExpanded);
                   const metaLine = joinCompact([
                     row.author || "未知作者",
                     row.publish_time || "未知时间",
@@ -1956,11 +1981,23 @@ export default function XhsWorkbenchPage() {
                     <article
                       key={row.note_id}
                       className={`ui-result-card group ${expanded ? "result-row-selected" : ""}`}
+                      onMouseEnter={hoverPreviewEnabled ? () => setHoveredRowId(row.note_id) : undefined}
+                      onMouseLeave={
+                        hoverPreviewEnabled
+                          ? () => setHoveredRowId((current) => (current === row.note_id ? null : current))
+                          : undefined
+                      }
                     >
                       <div className="result-row">
                         <button
                           type="button"
-                          onClick={() => setExpandedRowId((current) => (current === row.note_id ? null : row.note_id))}
+                          onClick={() => {
+                            if (hoverExpanded && !pinnedExpanded) {
+                              setExpandedRowId(row.note_id);
+                              return;
+                            }
+                            toggleExpandedRow(row.note_id);
+                          }}
                           aria-expanded={expanded}
                           className="result-row-main rounded-[14px] px-0 text-left transition hover:bg-white/20 dark:hover:bg-white/3"
                         >
@@ -2000,10 +2037,16 @@ export default function XhsWorkbenchPage() {
                         <div className="result-row-actions">
                           <button
                             type="button"
-                            onClick={() => setExpandedRowId((current) => (current === row.note_id ? null : row.note_id))}
+                            onClick={() => {
+                              if (hoverExpanded && !pinnedExpanded) {
+                                setExpandedRowId(row.note_id);
+                                return;
+                              }
+                              toggleExpandedRow(row.note_id);
+                            }}
                             className="ui-action-primary-soft h-7 px-3 text-[11px] font-medium"
                           >
-                            {expanded ? "收起详情" : "查看详情"}
+                            {pinnedExpanded ? "收起详情" : hoverExpanded ? "固定详情" : "查看详情"}
                           </button>
                           {row.url ? (
                             <a
