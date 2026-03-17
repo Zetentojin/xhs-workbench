@@ -14,10 +14,8 @@ need_cmd python3
 need_cmd npm
 need_cmd uv
 
-if ! command -v xhs >/dev/null 2>&1; then
-  echo "Installing xhs CLI via uv..."
-  uv tool install xiaohongshu-cli
-fi
+echo "Ensuring xhs CLI is installed and up to date..."
+uv tool install --upgrade xiaohongshu-cli
 
 echo "Preparing backend virtualenv..."
 cd "$ROOT_DIR/backend"
@@ -31,6 +29,9 @@ cd "$ROOT_DIR/frontend"
 npm install
 
 echo
+echo "xhs version:"
+xhs --version || true
+echo
 if xhs status >/dev/null 2>&1; then
   echo "xhs login status: ready"
 else
@@ -38,6 +39,8 @@ else
   echo "Run this once on your host machine before starting the app:"
   echo
   echo "  xhs login"
+  echo "  # or, if browser cookie extraction keeps failing:"
+  echo "  xhs login --qrcode"
   echo
 fi
 

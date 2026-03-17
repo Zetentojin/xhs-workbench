@@ -136,11 +136,30 @@ def run_cmd(cmd: list[str], timeout: int | None = None) -> str:
     return proc.stdout.strip()
 
 
+def unwrap_xhs_payload(payload: Any, command: list[str]) -> Any:
+    if not isinstance(payload, dict):
+        return payload
+    if "schema_version" not in payload or "ok" not in payload:
+        return payload
+    if not payload.get("ok"):
+        error = payload.get("error", {}) if isinstance(payload.get("error"), dict) else {}
+        code = str(error.get("code", "") or "").strip()
+        message = str(error.get("message", "") or "xhs command failed").strip()
+        if code:
+            raise RuntimeError(f"{' '.join(command)} failed [{code}]: {message}")
+        raise RuntimeError(f"{' '.join(command)} failed: {message}")
+    return payload.get("data", {})
+
+
 def run_xhs_json(*args: str) -> dict[str, Any]:
     if not XHS_BIN:
         raise RuntimeError("xhs executable not found")
-    text = run_cmd([str(XHS_BIN), *args, "--json"], timeout=XHS_CMD_TIMEOUT)
-    return json.loads(text)
+    command = [str(XHS_BIN), *args, "--json"]
+    text = run_cmd(command, timeout=XHS_CMD_TIMEOUT)
+    payload = unwrap_xhs_payload(json.loads(text), command)
+    if not isinstance(payload, dict):
+        raise RuntimeError(f"{' '.join(command)} returned unexpected payload type: {type(payload).__name__}")
+    return payload
 
 
 def run_openclaw_json(prompt: str) -> Any:
@@ -455,8 +474,10 @@ def normalize_author_post(note: dict[str, Any]) -> dict[str, Any]:
 
 def deep_dive_author(user_id: str, author: str) -> dict[str, Any]:
     try:
-        posts_data = json.loads(run_cmd([str(XHS_BIN), "user-posts", user_id, "--json"], timeout=PROFILE_CMD_TIMEOUT))
-        profile = json.loads(run_cmd([str(XHS_BIN), "user", user_id, "--json"], timeout=PROFILE_CMD_TIMEOUT))
+        posts_command = [str(XHS_BIN), "user-posts", user_id, "--json"]
+        posts_data = unwrap_xhs_payload(json.loads(run_cmd(posts_command, timeout=PROFILE_CMD_TIMEOUT)), posts_command)
+        profile_command = [str(XHS_BIN), "user", user_id, "--json"]
+        profile = unwrap_xhs_payload(json.loads(run_cmd(profile_command, timeout=PROFILE_CMD_TIMEOUT)), profile_command)
     except Exception as exc:
         return {
             "author": author,
