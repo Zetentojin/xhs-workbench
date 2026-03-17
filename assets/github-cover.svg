@@ -1,0 +1,107 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="40" x2="1110" y2="590" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF8E8"/>
+      <stop offset="0.52" stop-color="#F7F1E4"/>
+      <stop offset="1" stop-color="#EFE9DD"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="160" y1="120" x2="1070" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF7446"/>
+      <stop offset="0.55" stop-color="#FF9F5A"/>
+      <stop offset="1" stop-color="#FFD166"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#171717"/>
+      <stop offset="1" stop-color="#2B2B2B"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1280" height="640" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#3D291A" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="640" rx="36" fill="url(#bg)"/>
+  <circle cx="1136" cy="108" r="136" fill="#FFD9B8" fill-opacity="0.55"/>
+  <circle cx="160" cy="556" r="196" fill="#FFEACB" fill-opacity="0.9"/>
+  <path d="M946 54C1087 88 1192 179 1220 294C1248 409 1181 517 1041 566C901 615 689 605 540 563" stroke="#E6CFB6" stroke-width="2" stroke-dasharray="8 12"/>
+
+  <rect x="72" y="72" width="1136" height="496" rx="32" fill="url(#hero)" filter="url(#shadow)"/>
+
+  <rect x="124" y="120" width="462" height="44" rx="22" fill="#FFFFFF" fill-opacity="0.22"/>
+  <text x="152" y="149" fill="#2F1D13" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" font-weight="700">
+    LOCAL-FIRST • NO LOGIN • REAL SCRAPING
+  </text>
+
+  <text x="124" y="244" fill="#2B180F" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="64" font-weight="800">
+    XHS Workbench
+  </text>
+  <text x="124" y="304" fill="#4E2D18" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="28" font-weight="600">
+    GitHub 下载后可本地直接运行的小红书线索工作台
+  </text>
+  <text x="124" y="352" fill="#5E3822" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="24">
+    Next.js 前端 + FastAPI 运行器 + 宿主机 xhs CLI + 可导出结果
+  </text>
+
+  <rect x="124" y="398" width="228" height="58" rx="18" fill="#1D1D1D" fill-opacity="0.9"/>
+  <text x="156" y="434" fill="#FFF5EA" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="24" font-weight="700">
+    Clone → Login → Run
+  </text>
+
+  <rect x="370" y="398" width="176" height="58" rx="18" fill="#FFF7EC" fill-opacity="0.9"/>
+  <text x="405" y="434" fill="#A14A12" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="24" font-weight="700">
+    Export Ready
+  </text>
+
+  <rect x="714" y="138" width="410" height="342" rx="28" fill="url(#panel)" stroke="#FFFFFF" stroke-opacity="0.14"/>
+  <text x="752" y="186" fill="#FFF4E8" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="24" font-weight="700">
+    Runtime Flow
+  </text>
+
+  <rect x="752" y="218" width="132" height="76" rx="18" fill="#FFF1E7"/>
+  <text x="785" y="250" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
+    Frontend
+  </text>
+  <text x="774" y="274" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
+    Next.js UI
+  </text>
+
+  <rect x="931" y="218" width="154" height="76" rx="18" fill="#FFF1E7"/>
+  <text x="970" y="250" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
+    Backend
+  </text>
+  <text x="959" y="274" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
+    FastAPI API
+  </text>
+
+  <rect x="752" y="334" width="154" height="92" rx="18" fill="#FFE2CC"/>
+  <text x="777" y="370" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
+    Enrichment
+  </text>
+  <text x="785" y="394" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
+    xhs_enrich.py
+  </text>
+
+  <rect x="944" y="334" width="141" height="92" rx="18" fill="#FFE2CC"/>
+  <text x="987" y="370" fill="#3D2619" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="18" font-weight="700">
+    Host xhs
+  </text>
+  <text x="963" y="394" fill="#7A4A2D" font-family="'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif" font-size="15">
+    CLI / Login State
+  </text>
+
+  <path d="M889 256H923" stroke="#FFF2E4" stroke-width="4" stroke-linecap="round"/>
+  <path d="M816 294V324" stroke="#FFF2E4" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1009 294V324" stroke="#FFF2E4" stroke-width="4" stroke-linecap="round"/>
+
+  <rect x="714" y="504" width="146" height="36" rx="18" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="742" y="528" fill="#FFF7EF" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">
+    no login design
+  </text>
+  <rect x="874" y="504" width="106" height="36" rx="18" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="899" y="528" fill="#FFF7EF" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">
+    local run
+  </text>
+  <rect x="994" y="504" width="106" height="36" rx="18" fill="#FFFFFF" fill-opacity="0.18"/>
+  <text x="1012" y="528" fill="#FFF7EF" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700">
+    exportable
+  </text>
+</svg>

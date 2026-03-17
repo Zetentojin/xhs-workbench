@@ -1,5 +1,13 @@
 # XHS Workbench
 
+<p align="center">
+  <img src="./assets/github-cover.svg" alt="XHS Workbench cover" width="100%" />
+</p>
+
+<p align="center">
+  Local-first Xiaohongshu lead discovery workbench for real host-machine scraping.
+</p>
+
 [![CI](https://github.com/Zetentojin/xhs-workbench/actions/workflows/ci.yml/badge.svg)](https://github.com/Zetentojin/xhs-workbench/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Zetentojin/xhs-workbench/blob/main/LICENSE)
 [![Release](https://img.shields.io/github/v/release/Zetentojin/xhs-workbench?display_name=tag)](https://github.com/Zetentojin/xhs-workbench/releases)
