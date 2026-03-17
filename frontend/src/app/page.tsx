@@ -1989,50 +1989,96 @@ export default function XhsWorkbenchPage() {
                       }
                     >
                       <div className="result-row">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            if (hoverExpanded && !pinnedExpanded) {
-                              setExpandedRowId(row.note_id);
-                              return;
-                            }
-                            toggleExpandedRow(row.note_id);
-                          }}
-                          aria-expanded={expanded}
-                          className="result-row-main rounded-[14px] px-0 text-left transition hover:bg-white/20 dark:hover:bg-white/3"
-                        >
-                          <div className="result-row-titlebar">
-                            <span className={`result-row-status-dot ${bucketDotClass}`} />
-                            <h3 className="result-row-title">{row.title || "(无标题笔记)"}</h3>
-                            {label !== "未知" ? (
-                              <span className="result-inline-status result-inline-status-quality">{label}</span>
-                            ) : null}
-                            {row.opportunity_bucket ? (
-                              <span className="result-inline-status result-inline-status-bucket">{displayBucket(row.opportunity_bucket)}</span>
-                            ) : null}
-                          </div>
-                          <div className="result-row-meta">{metaLine}</div>
-                          <div className="result-row-summary clamp-2">{compactPreview}</div>
-                          <div className="result-row-tags">
-                            {visibleTags.map((tag) => (
-                              <span
-                                key={`${row.note_id}-${tag.kind}-${tag.text}`}
-                                className={`result-tag ${
-                                  tag.kind === "topic"
-                                    ? "result-tag-topic"
-                                    : tag.kind === "proof"
-                                      ? "result-tag-proof"
-                                      : "result-tag-quality"
-                                }`}
-                              >
-                                {tag.text}
-                              </span>
-                            ))}
-                            {hiddenTagCount > 0 ? (
-                              <span className="result-tag result-tag-proof">+{hiddenTagCount}</span>
-                            ) : null}
-                          </div>
-                        </button>
+                        {row.url ? (
+                          <a
+                            href={row.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="result-row-main relative rounded-[14px] px-0 text-left transition hover:bg-white/20 dark:hover:bg-white/3"
+                            aria-label={`打开原帖：${row.title || "无标题笔记"}`}
+                            title="点击打开原帖"
+                          >
+                            <span className="pointer-events-none absolute top-0 right-0 hidden translate-y-1 rounded-full border border-black/8 bg-white/82 px-2.5 py-1 text-[10px] font-medium tracking-[0.01em] text-zinc-600 opacity-0 shadow-[0_8px_20px_rgba(15,23,42,0.08)] transition-all duration-180 group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-white/8 dark:text-zinc-200 dark:shadow-none lg:inline-flex">
+                              点击打开原帖
+                            </span>
+                            <div className="result-row-titlebar">
+                              <span className={`result-row-status-dot ${bucketDotClass}`} />
+                              <h3 className="result-row-title">{row.title || "(无标题笔记)"}</h3>
+                              {label !== "未知" ? (
+                                <span className="result-inline-status result-inline-status-quality">{label}</span>
+                              ) : null}
+                              {row.opportunity_bucket ? (
+                                <span className="result-inline-status result-inline-status-bucket">{displayBucket(row.opportunity_bucket)}</span>
+                              ) : null}
+                            </div>
+                            <div className="result-row-meta">{metaLine}</div>
+                            <div className="result-row-summary clamp-2">{compactPreview}</div>
+                            <div className="result-row-tags">
+                              {visibleTags.map((tag) => (
+                                <span
+                                  key={`${row.note_id}-${tag.kind}-${tag.text}`}
+                                  className={`result-tag ${
+                                    tag.kind === "topic"
+                                      ? "result-tag-topic"
+                                      : tag.kind === "proof"
+                                        ? "result-tag-proof"
+                                        : "result-tag-quality"
+                                  }`}
+                                >
+                                  {tag.text}
+                                </span>
+                              ))}
+                              {hiddenTagCount > 0 ? (
+                                <span className="result-tag result-tag-proof">+{hiddenTagCount}</span>
+                              ) : null}
+                            </div>
+                          </a>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (hoverExpanded && !pinnedExpanded) {
+                                setExpandedRowId(row.note_id);
+                                return;
+                              }
+                              toggleExpandedRow(row.note_id);
+                            }}
+                            aria-expanded={expanded}
+                            className="result-row-main rounded-[14px] px-0 text-left transition hover:bg-white/20 dark:hover:bg-white/3"
+                          >
+                            <div className="result-row-titlebar">
+                              <span className={`result-row-status-dot ${bucketDotClass}`} />
+                              <h3 className="result-row-title">{row.title || "(无标题笔记)"}</h3>
+                              {label !== "未知" ? (
+                                <span className="result-inline-status result-inline-status-quality">{label}</span>
+                              ) : null}
+                              {row.opportunity_bucket ? (
+                                <span className="result-inline-status result-inline-status-bucket">{displayBucket(row.opportunity_bucket)}</span>
+                              ) : null}
+                            </div>
+                            <div className="result-row-meta">{metaLine}</div>
+                            <div className="result-row-summary clamp-2">{compactPreview}</div>
+                            <div className="result-row-tags">
+                              {visibleTags.map((tag) => (
+                                <span
+                                  key={`${row.note_id}-${tag.kind}-${tag.text}`}
+                                  className={`result-tag ${
+                                    tag.kind === "topic"
+                                      ? "result-tag-topic"
+                                      : tag.kind === "proof"
+                                        ? "result-tag-proof"
+                                        : "result-tag-quality"
+                                  }`}
+                                >
+                                  {tag.text}
+                                </span>
+                              ))}
+                              {hiddenTagCount > 0 ? (
+                                <span className="result-tag result-tag-proof">+{hiddenTagCount}</span>
+                              ) : null}
+                            </div>
+                          </button>
+                        )}
 
                         <div className="result-row-actions">
                           <button
