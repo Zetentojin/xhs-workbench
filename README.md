@@ -35,14 +35,24 @@
 
 ## 第一次使用只看这里
 
-### 1. 克隆仓库
+推荐安装方式有两种：
+
+### 1. 方式 A：从 GitHub clone 最新代码
 
 ```bash
 git clone https://github.com/Zetentojin/xhs-workbench.git
 cd xhs-workbench
 ```
 
-### 2. 一键准备依赖
+### 2. 方式 B：从 GitHub Releases 下载 `v0.1.1` zip
+
+1. 打开 GitHub Releases 页面
+2. 下载 `v0.1.1` 对应的 Source code zip
+3. 解压后进入目录
+
+如果解压后的目录名不是 `xhs-workbench`，也没关系，只要进入那个解压出来的目录即可。
+
+### 3. 一键准备依赖
 
 ```bash
 ./scripts/bootstrap-local.sh
@@ -51,17 +61,24 @@ cd xhs-workbench
 这个脚本会自动：
 
 - 检查 `python3`、`npm`、`uv`
-- 安装 `xhs` CLI：`uv tool install xiaohongshu-cli`
+- 升级 `xhs` CLI 到最新版
 - 安装前后端依赖
 
-### 3. 在宿主机登录 `xhs`
+### 4. 在宿主机登录 `xhs`
 
 ```bash
 xhs login
 xhs status
 ```
 
-### 4. 启动应用
+如果浏览器 Cookie 提取失败，可以改用：
+
+```bash
+xhs login --qrcode
+xhs status
+```
+
+### 5. 启动应用
 
 ```bash
 ./scripts/run-local.sh
@@ -214,7 +231,7 @@ OPENCLAW_BIN=/absolute/path/to/openclaw
 - 许可证：`MIT`
 - CI：GitHub Actions 会自动检查前端 `lint/build`、后端 Python 语法和脚本语法
 - GitHub 发布清单：`docs/github-publish-checklist.md`
-- 首个 release 草稿：`docs/release-notes-v0.1.0.md`
+- 最新 release 说明：`docs/release-notes-v0.1.1.md`
 
 ## 监控
 
