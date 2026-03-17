@@ -796,10 +796,16 @@ def main() -> int:
         log(f"[search] keyword={keyword}")
         for page in range(1, args.pages + 1):
             data = run_xhs_json("search", keyword, "--page", str(page), "--sort", "latest")
+            page_items = data.get("items", [])
+            if not isinstance(page_items, list):
+                page_items = []
             before_count = len(raw_rows)
-            for item in data.get("items", []):
-                if item.get("model_type") != "note":
+            usable_count = 0
+            for item in page_items:
+                note = item.get("note_card", item)
+                if not isinstance(note, dict):
                     continue
+                usable_count += 1
                 row = heuristic_enrich(flatten_note(item, keyword, page))
                 if not row["note_id"] or row["note_id"] in seen:
                     continue
@@ -809,7 +815,11 @@ def main() -> int:
                     break
             if args.max_results and len(raw_rows) >= args.max_results:
                 break
-            log(f"[search] keyword={keyword} page={page} added={len(raw_rows) - before_count} total={len(raw_rows)}")
+            log(
+                f"[search] keyword={keyword} page={page} "
+                f"raw_items={len(page_items)} usable_items={usable_count} "
+                f"added={len(raw_rows) - before_count} total={len(raw_rows)}"
+            )
         if args.max_results and len(raw_rows) >= args.max_results:
             break
 
