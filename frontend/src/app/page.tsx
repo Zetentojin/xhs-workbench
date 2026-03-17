@@ -146,7 +146,7 @@ type RunProgressSummary = {
   lastLine: string;
 };
 
-type ThemeMode = "light" | "dark";
+type ThemeMode = "light" | "dark" | "auto";
 
 type WorkspaceProfile = {
   name: string;
@@ -288,6 +288,8 @@ const defaultForm: FormState = {
 
 const RESULT_PAGE_SIZE = 30;
 const THEME_STORAGE_KEY = "xhs-workbench-theme";
+const AUTO_DARK_START_HOUR = 19;
+const AUTO_DARK_END_HOUR = 7;
 type SectionIconName =
   | "settings"
   | "server"
@@ -338,6 +340,31 @@ function formatTime(value: string | null | undefined) {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+function resolveThemeMode(mode: ThemeMode): "light" | "dark" {
+  if (mode === "auto") {
+    const hour = new Date().getHours();
+    return hour >= AUTO_DARK_START_HOUR || hour < AUTO_DARK_END_HOUR ? "dark" : "light";
+  }
+  return mode;
+}
+
+function getThemeModeLabel(mode: ThemeMode) {
+  switch (mode) {
+    case "dark":
+      return "黑夜";
+    case "light":
+      return "浅色";
+    default:
+      return "自动";
+  }
+}
+
+function getNextThemeMode(mode: ThemeMode) {
+  if (mode === "auto") return "dark";
+  if (mode === "dark") return "light";
+  return "auto";
 }
 
 function displayBucket(bucket: ResultRow["opportunity_bucket"] | string | null | undefined) {
@@ -772,22 +799,31 @@ export default function XhsWorkbenchPage() {
     log: false,
     brief: false,
   });
+  const activeThemeMode = themeMode ?? "auto";
+  const resolvedThemeMode = resolveThemeMode(activeThemeMode);
 
   useEffect(() => {
     const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-    if (savedTheme === "light" || savedTheme === "dark") {
+    if (savedTheme === "light" || savedTheme === "dark" || savedTheme === "auto") {
       setThemeMode(savedTheme);
       return;
     }
-    setThemeMode(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    setThemeMode("auto");
   }, []);
 
   useEffect(() => {
     if (!themeMode) return;
     const root = document.documentElement;
-    root.classList.toggle("dark", themeMode === "dark");
-    root.style.colorScheme = themeMode;
+    const applyThemeMode = () => {
+      const resolvedTheme = resolveThemeMode(themeMode);
+      root.classList.toggle("dark", resolvedTheme === "dark");
+      root.style.colorScheme = resolvedTheme;
+    };
+    applyThemeMode();
     window.localStorage.setItem(THEME_STORAGE_KEY, themeMode);
+    if (themeMode !== "auto") return;
+    const timer = window.setInterval(applyThemeMode, 60_000);
+    return () => window.clearInterval(timer);
   }, [themeMode]);
 
   const handleAccessDenied = useCallback((message: string = ACCESS_LOCK_MESSAGE) => {
@@ -1053,9 +1089,14 @@ export default function XhsWorkbenchPage() {
                   {currentRunCreatedAt ? `更新于 ${formatTime(currentRunCreatedAt)}` : "等待结果更新"}
                 </p>
                 <button
-                  onClick={() => setThemeMode((current) => (current === "dark" ? "light" : "dark"))}
-                  aria-label={themeMode === "dark" ? "切换到浅色模式" : "切换到黑夜模式"}
-                  className="ui-action-secondary h-8 w-8 rounded-full px-0"
+                  onClick={() => setThemeMode((current) => getNextThemeMode(current ?? "auto"))}
+                  aria-label={`当前${getThemeModeLabel(activeThemeMode)}主题，点击切换到${getThemeModeLabel(getNextThemeMode(activeThemeMode))}`}
+                  title={
+                    activeThemeMode === "auto"
+                      ? `当前自动主题，按本地时间切换，当前生效为${getThemeModeLabel(resolvedThemeMode)}`
+                      : `当前${getThemeModeLabel(activeThemeMode)}主题，点击切换到${getThemeModeLabel(getNextThemeMode(activeThemeMode))}`
+                  }
+                  className="ui-action-secondary h-8 gap-2 rounded-full px-3 text-[11px] font-medium"
                 >
                   <svg
                     viewBox="0 0 20 20"
@@ -1067,7 +1108,19 @@ export default function XhsWorkbenchPage() {
                     className="mx-auto h-4 w-4"
                     aria-hidden="true"
                   >
-                    {themeMode === "dark" ? (
+                    {activeThemeMode === "auto" ? (
+                      <>
+                        <path d="M10 3.4V5" />
+                        <path d="M10 15v1.6" />
+                        <path d="M4.8 10H3.4" />
+                        <path d="M16.6 10h-1.4" />
+                        <path d="M6.1 6.1L5 5" />
+                        <path d="M15 15l-1.1-1.1" />
+                        <path d="M13.9 6.1L15 5" />
+                        <path d="M5 15l1.1-1.1" />
+                        <path d="M10 6.2a3.8 3.8 0 1 0 0 7.6a3 3 0 0 1 0-7.6Z" />
+                      </>
+                    ) : activeThemeMode === "dark" ? (
                       <>
                         <circle cx="10" cy="10" r="3.2" />
                         <path d="M10 2.8v2" />
@@ -1079,6 +1132,7 @@ export default function XhsWorkbenchPage() {
                       <path d="M13.8 13.8A5.5 5.5 0 0 1 6.2 6.2 5.8 5.8 0 1 0 13.8 13.8Z" />
                     )}
                   </svg>
+                  <span>{getThemeModeLabel(activeThemeMode)}</span>
                 </button>
               </div>
             </div>
