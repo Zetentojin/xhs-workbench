@@ -1126,6 +1126,12 @@ html.dark .result-row-main:focus-visible {
   padding-left: 10px;
 }
 
+.result-row-keyboard-active {
+  border-left: 2px solid rgba(124, 133, 144, 0.56);
+  padding-left: 10px;
+  background: rgba(247, 249, 252, 0.34);
+}
+
 .control-group + .control-group {
   margin-top: 16px;
   padding-top: 16px;
@@ -1386,6 +1392,11 @@ html.dark .ui-result-card:hover .ui-action-secondary {
 
 html.dark .result-row-selected {
   border-left-color: rgba(176, 190, 206, 0.72);
+}
+
+html.dark .result-row-keyboard-active {
+  border-left-color: rgba(176, 190, 206, 0.52);
+  background: rgba(255, 255, 255, 0.025);
 }
 
 @media (max-width: 1279px) {

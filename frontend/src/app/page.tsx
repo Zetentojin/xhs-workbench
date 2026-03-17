@@ -790,10 +790,12 @@ export default function XhsWorkbenchPage() {
   const deferredQuery = useDeferredValue(query);
   const resultRequestIdRef = useRef(0);
   const previousLatestStampRef = useRef<string | null>(null);
+  const resultRowRefs = useRef<Record<string, HTMLElement | null>>({});
   const [form, setForm] = useState<FormState>(defaultForm);
   const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
   const [hoveredRowId, setHoveredRowId] = useState<string | null>(null);
   const [hoverPreviewEnabled, setHoverPreviewEnabled] = useState(false);
+  const [keyboardRowId, setKeyboardRowId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [themeMode, setThemeMode] = useState<ThemeMode | null>(null);
   const [expandedPanels, setExpandedPanels] = useState<Record<"config" | "env" | "log" | "brief", boolean>>({
@@ -988,6 +990,74 @@ export default function XhsWorkbenchPage() {
       setCurrentPage(totalPages);
     }
   }, [currentPage, totalPages]);
+
+  useEffect(() => {
+    if (!filteredRows.length) {
+      setKeyboardRowId(null);
+      return;
+    }
+    if (!keyboardRowId) return;
+    if (filteredRows.some((row) => row.note_id === keyboardRowId)) return;
+    setKeyboardRowId(visibleRows[0]?.note_id ?? filteredRows[0]?.note_id ?? null);
+  }, [filteredRows, keyboardRowId, visibleRows]);
+
+  useEffect(() => {
+    if (!keyboardRowId) return;
+    const element = resultRowRefs.current[keyboardRowId];
+    if (!element) return;
+    element.focus({ preventScroll: true });
+    element.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, [keyboardRowId, currentPage]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT")
+      ) {
+        return;
+      }
+
+      if (!filteredRows.length) return;
+
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        const currentIndex = keyboardRowId
+          ? filteredRows.findIndex((row) => row.note_id === keyboardRowId)
+          : -1;
+        const fallbackIndex =
+          event.key === "ArrowDown"
+            ? Math.min(pageStartIndex, filteredRows.length - 1)
+            : Math.min(pageEndIndex - 1, filteredRows.length - 1);
+        const nextIndex =
+          currentIndex === -1
+            ? fallbackIndex
+            : event.key === "ArrowDown"
+              ? Math.min(currentIndex + 1, filteredRows.length - 1)
+              : Math.max(currentIndex - 1, 0);
+        const nextRow = filteredRows[nextIndex];
+        if (!nextRow) return;
+        setCurrentPage(Math.floor(nextIndex / RESULT_PAGE_SIZE) + 1);
+        setKeyboardRowId(nextRow.note_id);
+        return;
+      }
+
+      if (event.key === "Enter" && keyboardRowId) {
+        const activeRow = filteredRows.find((row) => row.note_id === keyboardRowId);
+        if (activeRow?.url) {
+          event.preventDefault();
+          window.open(activeRow.url, "_blank", "noopener,noreferrer");
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [filteredRows, keyboardRowId, pageEndIndex, pageStartIndex]);
 
   function togglePanel(panel: "config" | "env" | "log" | "brief") {
     setExpandedPanels((current) => ({ ...current, [panel]: !current[panel] }));
@@ -1939,6 +2009,7 @@ export default function XhsWorkbenchPage() {
                   const pinnedExpanded = expandedRowId === row.note_id;
                   const hoverExpanded = hoverPreviewEnabled && hoveredRowId === row.note_id;
                   const expanded = hoverExpanded || (!hoveredRowId && pinnedExpanded);
+                  const keyboardActive = keyboardRowId === row.note_id;
                   const metaLine = joinCompact([
                     row.author || "未知作者",
                     row.publish_time || "未知时间",
@@ -1980,7 +2051,9 @@ export default function XhsWorkbenchPage() {
                   return (
                     <article
                       key={row.note_id}
-                      className={`ui-result-card group ${expanded ? "result-row-selected" : ""}`}
+                      className={`ui-result-card group ${
+                        expanded ? "result-row-selected" : keyboardActive ? "result-row-keyboard-active" : ""
+                      }`}
                       onMouseEnter={hoverPreviewEnabled ? () => setHoveredRowId(row.note_id) : undefined}
                       onMouseLeave={
                         hoverPreviewEnabled
@@ -1997,6 +2070,10 @@ export default function XhsWorkbenchPage() {
                             className="result-row-main relative rounded-[14px] px-0 text-left transition hover:bg-white/20 dark:hover:bg-white/3"
                             aria-label={`打开原帖：${row.title || "无标题笔记"}`}
                             title="点击打开原帖"
+                            ref={(node) => {
+                              resultRowRefs.current[row.note_id] = node;
+                            }}
+                            onFocus={() => setKeyboardRowId(row.note_id)}
                           >
                             <span className="pointer-events-none absolute top-0 right-0 hidden translate-y-1 rounded-full border border-black/8 bg-white/82 px-2.5 py-1 text-[10px] font-medium tracking-[0.01em] text-zinc-600 opacity-0 shadow-[0_8px_20px_rgba(15,23,42,0.08)] transition-all duration-180 group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-white/8 dark:text-zinc-200 dark:shadow-none lg:inline-flex">
                               点击打开原帖
@@ -2045,6 +2122,10 @@ export default function XhsWorkbenchPage() {
                             }}
                             aria-expanded={expanded}
                             className="result-row-main rounded-[14px] px-0 text-left transition hover:bg-white/20 dark:hover:bg-white/3"
+                            ref={(node) => {
+                              resultRowRefs.current[row.note_id] = node;
+                            }}
+                            onFocus={() => setKeyboardRowId(row.note_id)}
                           >
                             <div className="result-row-titlebar">
                               <span className={`result-row-status-dot ${bucketDotClass}`} />
