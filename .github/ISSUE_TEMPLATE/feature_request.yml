@@ -1,0 +1,36 @@
+name: Feature Request
+description: Suggest an improvement for local usability, scraping workflow, or result analysis.
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem To Solve
+      description: What is hard, missing, or frustrating today?
+      placeholder: First-time setup still requires too much terminal knowledge.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: Describe the change you want to see.
+      placeholder: Add a setup doctor page that checks xhs login, script path, and output directory.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Optional. Share any fallback ideas or tradeoffs you considered.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Extra Context
+      description: Optional. Links, screenshots, examples, or use cases.
+

@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      XHS_ENRICH_SCRIPT: ${XHS_ENRICH_SCRIPT:-/app/external/xhs_enrich.py}
+      XHS_ENRICH_OUTPUT_DIR: ${XHS_ENRICH_OUTPUT_DIR:-/app/exports}
+      BACKEND_CORS_ORIGINS: ${BACKEND_CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      PUBLIC_ACCESS_ENABLED: ${PUBLIC_ACCESS_ENABLED:-1}
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_PUBLISHABLE_KEY: ${SUPABASE_PUBLISHABLE_KEY:-}
+    volumes:
+      - ${XHS_ENRICH_SCRIPT_HOST:-./backend/external/xhs_enrich.py}:/app/external/xhs_enrich.py:ro
+      - ${XHS_ENRICH_OUTPUT_DIR_HOST:-./exports}:/app/exports
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      BACKEND_URL: ${BACKEND_URL:-http://backend:8000}
+      NEXT_PUBLIC_PUBLIC_ACCESS: ${NEXT_PUBLIC_PUBLIC_ACCESS:-1}
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-}
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:-}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-}
+    depends_on:
+      - backend

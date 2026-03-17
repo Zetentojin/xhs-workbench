@@ -1,0 +1,61 @@
+name: Bug Report
+description: Report a reproducible problem in local setup, UI, or scraping flow.
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Problem Summary
+      description: Briefly describe what went wrong.
+      placeholder: Running ./scripts/run-local.sh starts the UI, but clicking "重新抓取" fails immediately.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To Reproduce
+      description: Share the exact steps so someone else can reproduce the issue.
+      placeholder: |
+        1. Run ./scripts/bootstrap-local.sh
+        2. Run xhs login
+        3. Run ./scripts/run-local.sh
+        4. Open http://127.0.0.1:3000
+        5. Click "重新抓取"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Result
+      placeholder: The run should start and produce logs in the task panel.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Result
+      placeholder: The UI shows "xhs 尚未登录" even after I ran xhs login.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include OS, browser, Node version, Python version, and whether you used Docker or local scripts.
+      placeholder: macOS 15, Chrome, Node 20, Python 3.10, local scripts
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs Or Screenshots
+      description: Paste relevant logs, errors, or screenshots if available.
+      render: shell
+
