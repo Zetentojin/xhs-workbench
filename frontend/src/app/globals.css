@@ -527,6 +527,11 @@ html.dark .ui-tab-active {
   color: #f5f7fa;
 }
 
+html.dark .ui-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e7edf4;
+}
+
 .ui-filter-toggle {
   display: inline-flex;
   align-items: center;
@@ -556,6 +561,11 @@ html.dark .ui-tab-active {
 
 html.dark .ui-filter-toggle {
   color: #b9afa3;
+}
+
+html.dark .ui-filter-toggle:hover {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 html.dark .ui-filter-toggle-active {
@@ -731,7 +741,9 @@ html.dark .ui-file-row:hover {
 }
 
 html.dark .utility-strip-panel {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: none;
 }
 
 .result-object-panel {
@@ -1318,6 +1330,16 @@ html.dark .result-inline-status-bucket {
 html.dark .result-tag-proof,
 html.dark .ui-action-secondary {
   color: #b8c1cb;
+}
+
+html.dark .result-tag-proof {
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+html.dark .ui-action-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 html.dark .ui-action-primary-soft {
