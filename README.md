@@ -1,64 +1,67 @@
 # XHS Workbench
 
-一个可公开发布、可本地化部署、默认免登录直用的小红书线索工作台。
+[![CI](https://github.com/Zetentojin/xhs-workbench/actions/workflows/ci.yml/badge.svg)](https://github.com/Zetentojin/xhs-workbench/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Zetentojin/xhs-workbench/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/Zetentojin/xhs-workbench?display_name=tag)](https://github.com/Zetentojin/xhs-workbench/releases)
 
-它包含两个服务：
+一个面向本地使用的、小红书线索工作台。
 
-- `frontend/`: Next.js 控制台界面
-- `backend/`: FastAPI 运行器，负责启动 `xhs_enrich.py` 并读取导出结果
+目标很直接：
 
-## 这版的定位
+`从 GitHub 下载 -> 在自己电脑上启动 -> 直接真实抓取`
 
-这套仓库现在默认是“公开直用版”：
+这套仓库默认是公开直用版：
 
 - 不做登录设计
 - 页面打开即可使用
-- 后端接口默认公开访问
-- 适合本地部署、内网部署，或你自己控制的公开演示环境
+- 后端默认支持公开访问
+- 适合本地部署、内网部署，或你自己控制的演示环境
 
-如果你把它直接暴露到公网，建议至少补一层你自己的访问控制、反向代理限流或 IP 白名单。
+## 这个项目包含什么
 
-## 推荐启动方式
+- `frontend/`: Next.js 控制台界面
+- `backend/`: FastAPI 运行器，负责启动 `xhs_enrich.py` 并读取导出结果
+- `scripts/bootstrap-local.sh`: 第一次启动前的依赖准备脚本
+- `scripts/run-local.sh`: 本地启动前后端的一键脚本
 
-如果你的目标是：
+## 最适合谁
 
-`从 GitHub 下载后，在自己电脑上直接真实抓取`
+如果你想要的是下面这种体验，这个仓库就是为这个场景准备的：
 
-推荐优先走“宿主机本地运行”这条路径，而不是先把后端塞进 Docker。
+- 从 GitHub clone 或下载后，在本机直接跑
+- 自己完成 `xhs login` 后做真实抓取
+- 不想先接 Supabase、用户体系、邮箱登录流程
+- 想先在本地验证工作流，再决定要不要做公网部署
 
-原因是：
+## 第一次使用只看这里
 
-- `xhs login` 会读取你本机浏览器 cookies
-- 真实抓取最适合直接在你的电脑上跑 `xhs`
-- `OpenClaw` 现在是可选增强，不再是首次运行的硬依赖
+### 1. 克隆仓库
 
-## 快速开始：真实抓取版
+```bash
+git clone https://github.com/Zetentojin/xhs-workbench.git
+cd xhs-workbench
+```
 
-### 1. 一键准备依赖
+### 2. 一键准备依赖
 
 ```bash
 ./scripts/bootstrap-local.sh
 ```
 
-这个脚本会做 3 件事：
+这个脚本会自动：
 
 - 检查 `python3`、`npm`、`uv`
-- 自动安装 `xhs` CLI：`uv tool install xiaohongshu-cli`
+- 安装 `xhs` CLI：`uv tool install xiaohongshu-cli`
 - 安装前后端依赖
 
-### 2. 在宿主机登录 xhs
+### 3. 在宿主机登录 `xhs`
 
 ```bash
 xhs login
-```
-
-登录成功后你可以自检：
-
-```bash
 xhs status
 ```
 
-### 3. 启动应用
+### 4. 启动应用
 
 ```bash
 ./scripts/run-local.sh
@@ -67,14 +70,32 @@ xhs status
 启动后访问：
 
 - 前端：`http://127.0.0.1:3000`
-- 后端：`http://127.0.0.1:8000/api/health`
+- 后端健康检查：`http://127.0.0.1:8000/api/health`
 
-默认配置下：
+默认配置下你可以直接：
 
-- 无需登录
-- 可直接刷新状态、运行抓取、查看结果、下载导出文件
-- 默认使用启发式打分
-- 如果本机有 `openclaw`，可以在界面里手动打开增强模式
+- 刷新状态
+- 运行抓取
+- 查看结果
+- 下载导出文件
+- 按需启用 `OpenClaw` 增强模式
+
+## 推荐启动方式
+
+如果你的目标是“在自己电脑上直接真实抓取”，推荐优先走“宿主机本地运行”这条路径，而不是先把后端塞进 Docker。
+
+原因是：
+
+- `xhs login` 会读取你本机浏览器 cookies
+- 真实抓取最适合直接在你的电脑上跑 `xhs`
+- `OpenClaw` 现在是可选增强，不再是首次运行的硬依赖
+
+## 当前边界
+
+- 运行状态仍然是共享的
+- 抓取任务仍然是单队列
+- 导出目录仍然是共享目录
+- 如果你直接暴露到公网，建议额外加一层你自己的访问控制、限流或 IP 白名单
 
 ## Docker 方式
 
