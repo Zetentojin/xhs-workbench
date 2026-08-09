@@ -1,3 +1,5 @@
+
+
 # XHS Workbench
 
 <p align="center">
@@ -73,7 +75,7 @@ cd xhs-workbench
 
 这个脚本会自动：
 
-- 检查 `python3`、`npm`、`uv`
+- 检查 `python3`、`npm`、`uv`（首次安装 `uv` 后若提示未找到命令，请运行 `source $HOME/.local/bin/env` 或重启终端）
 - 升级 `xhs` CLI 到最新版
 - 安装前后端依赖
 
